@@ -1,0 +1,78 @@
+@startuml SpringFood
+
+Address "1" -- "0..n" Account
+Address "1" -u- "1" Order
+Client "0..n" -- "1..1" Order
+Worker "0..n" --- "0..1" Order
+Order "1..n" -r- "1" OrderLine 
+OrderLine "1" -- "0..n" Product
+Product "1" -d- "0..n" ProductType
+
+Class Address {
+    - id : long
+    - city : string
+    - street : string
+    - postal : int
+    - account : Account
+    - main : boolean
+}
+
+Class Account {
+    - name : String
+    - phone : String
+    - email : String
+    - password : String
+    - address : Address[]
+}
+
+Class Worker extends Account{
+    - delvierManager : boolean
+    - orderManager : boolean
+    - productManager : boolean
+    - adminManager : boolean
+    - springfoodCfg : boolean
+}
+
+Class Client extends Account{
+
+}
+
+Class Order {
+    - id : string
+    - stripe : string
+    - creation : LocalDateTime
+    - totalAmount : long
+    - paid : boolean
+    - deliverer : Worker
+    - delivered : boolean
+    - deliverAddress : Address
+    - deliveryTime: LocalDateTime
+    - orderLines : OrderLine[]
+}
+
+Class OrderLine {
+    - id : long
+    - order : Order
+    - product : Product
+    - quantity : int
+    - total : long
+}
+
+Class Product {
+    - id : long
+    - name : String
+    - description : String
+    - stock : int
+    - price : long
+    - type : ProductType[]
+    - useStock : boolean
+    - active : boolean
+}
+
+Class ProductType {
+    - id : long
+    - name : String
+    - description : String
+}
+
+@enduml
