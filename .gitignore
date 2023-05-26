@@ -1,0 +1,67 @@
+# Directorios y archivos generados por IDE JetBrains
+.idea/
+*.iml
+*.iws
+out/
+target/
+*.class
+
+# Dependencias de Maven
+## Ignorar los directorios de salida de Maven
+target/
+## Ignorar los archivos de configuración de Maven
+mvnw
+mvnw.cmd
+.mvn/
+
+# Dependencias de Gradle
+## Ignorar los directorios de salida de Gradle
+build/
+## Ignorar los archivos de configuración de Gradle
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Dependencias de Node.js
+## Ignorar los directorios de salida de npm
+node_modules/
+## Ignorar los archivos de bloqueo de npm
+package-lock.json
+yarn.lock
+
+# Archivos de compilación de Vue.js
+/dist/
+
+# Otros archivos generados por la construcción y ejecución del proyecto
+logs/
+*.log
+*.jar
+
+# Archivos de configuración de Visual Studio Code
+.vscode/
+
+# Archivos de configuración de Eclipse
+.classpath
+.project
+.settings/
+.factorypath
+
+# Archivos de configuración de NetBeans
+nbproject/private/
+
+# Archivos de configuración de Spring Tools Suite
+.springBeans
+
+# Archivos de configuración de Sublime Text
+.sublime-project
+.sublime-workspace
+
+# Otros archivos y directorios
+.DS_Store
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+node/
+dist/
