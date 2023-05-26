@@ -13,8 +13,8 @@ Class Address {
     - city : string
     - street : string
     - postal : int
-    - owner : Account
-    - isMain : boolean
+    - account : Account
+    - main : boolean
 }
 
 Class Account {
@@ -26,11 +26,11 @@ Class Account {
 }
 
 Class Worker extends Account{
-    - deliveryManager : boolean
+    - delvierManager : boolean
     - orderManager : boolean
     - productManager : boolean
-    - adminAccess : boolean
-    - springfoodConfiguration : boolean
+    - adminManager : boolean
+    - springfoodCfg : boolean
 }
 
 Class Client extends Account{
@@ -40,14 +40,13 @@ Class Client extends Account{
 Class Order {
     - id : string
     - stripe : string
-    - createdAt : LocalDateTime
-    - orderTotal : long
+    - creation : LocalDateTime
+    - totalAmount : long
     - paid : boolean
-    - homeDelivery : boolean
-    - deliveryWorker : Worker
-    - isDelivered : boolean
-    - deliveryAddress : Address
-    - deliveryDateTime: LocalDateTime
+    - deliverer : Worker
+    - delivered : boolean
+    - deliverAddress : Address
+    - deliveryTime: LocalDateTime
     - orderLines : OrderLine[]
 }
 
@@ -56,7 +55,7 @@ Class OrderLine {
     - order : Order
     - product : Product
     - quantity : int
-    - lineTotal : long
+    - total : long
 }
 
 Class Product {
@@ -65,14 +64,9 @@ Class Product {
     - description : String
     - stock : int
     - price : long
-    - productTypes : ProductType[]
-    - trackStock : boolean
-    - isActive : boolean
-    - offer: long
-}
-
-Class Offer {
-    
+    - type : ProductType[]
+    - useStock : boolean
+    - active : boolean
 }
 
 Class ProductType {
