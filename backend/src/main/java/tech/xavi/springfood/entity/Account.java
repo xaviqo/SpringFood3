@@ -2,34 +2,32 @@ package tech.xavi.springfood.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Builder
+@SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Account implements UserDetails {
 
     @Id @Column
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "acc_seq")
-    @GenericGenerator(name = "account-id-generator", strategy = "tech.xavi.springfood.AccountIdGenerator")
+    @GeneratedValue(generator = "account-id-generator")
+    @GenericGenerator(name = "account-id-generator", strategy = "tech.xavi.springfood.configuration.idgenerator.AccountIdGenerator")
     String id;
     @Column(length = 40, nullable = false)
     @NotBlank(message = "Name is mandatory")
@@ -42,23 +40,37 @@ public class Account implements UserDetails {
     @Column(length = 40, nullable = false)
     @Email(message = "Invalid email")
     String email;
-    @Column(length = 40, nullable = false)
+    @Column(nullable = false)
     @NotBlank(message = "Password is mandatory")
-    @Size(min = 4, max = 40)
     String password;
+    @Column
+    boolean enabled;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     List<Address> addresses;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    List<RefreshToken> refreshTokens;
 
     public String getEntityPrefix(){
         return "ACC_";
     }
 
     @Override
-    public abstract Collection<? extends GrantedAuthority> getAuthorities();
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(this::getRole);
+        if (this instanceof Worker) {
+            authorities.addAll(((Worker) this)
+                    .getWorkerAuthorities()
+                    .stream()
+                    .map(auth -> new SimpleGrantedAuthority(auth.name()))
+                    .toList());
+        }
+        return authorities;
+    }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.getEmail();
     }
 
     @Override
@@ -78,6 +90,10 @@ public class Account implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return this.enabled;
+    }
+
+    public String getRole(){
+        return "ROLE_";
     }
 }

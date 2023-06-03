@@ -12,7 +12,7 @@ export default new Vuetify({
                 info: '#68c2d7',
                 danger: '#68c2d7',
                 warning: '#fece52',
-                light: '#fefeff'
+                light: '#efefee'
             },
         },
     },

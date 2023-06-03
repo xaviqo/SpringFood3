@@ -1,16 +1,15 @@
 package tech.xavi.springfood.configuration.idgenerator;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
 public class UUIDGenerator {
 
-    private static final DateFormat dateFormat = new SimpleDateFormat("yyMMdd");
-
     public static String randomOrderUUID(){
-        return dateFormat.format(new Date())+"_"+randomUUID().substring(0, 8);
+        return new SimpleDateFormat("yyMMdd")
+                .format(new Date())+"_"+randomUUID()
+                .substring(0, 8);
     }
 
     public static String randomAccountUUID(){
@@ -18,7 +17,7 @@ public class UUIDGenerator {
     }
 
     private static String randomUUID(){
-        return UUID.randomUUID().toString().replace("-", "").toLowerCase();
+        return UUID.randomUUID().toString().replace("-", "").toUpperCase();
     }
 
 }

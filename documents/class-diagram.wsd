@@ -7,6 +7,7 @@ Worker "0..n" --- "0..1" Order
 Order "1..n" -r- "1" OrderLine 
 OrderLine "1" -- "0..n" Product
 Product "1" -d- "0..n" ProductType
+Product "1..n" -d- "0..n" Promotion
 
 Class Address {
     - id : long
@@ -64,15 +65,17 @@ Class Product {
     - name : String
     - description : String
     - stock : int
+    - discount : byte
     - price : long
     - productTypes : ProductType[]
     - trackStock : boolean
     - isActive : boolean
-    - offer: long
+    - promotion: long
 }
 
-Class Offer {
-    
+Class Promotion {
+    - id : long
+    - product : long
 }
 
 Class ProductType {

@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <TopBar />
-    <v-main>
+    <v-main class="main-bg">
       <router-view/>
     </v-main>
     <FooterBar />
@@ -23,6 +23,11 @@ export default {
 };
 </script>
 <style>
+.main-bg {
+  background-image: url("assets/sfbg.png");
+  background-position: top;
+  background-size: cover;
+}
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
