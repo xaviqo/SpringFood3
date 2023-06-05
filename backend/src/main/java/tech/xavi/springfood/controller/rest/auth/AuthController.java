@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.xavi.springfood.configuration.constants.EndPoints;
-import tech.xavi.springfood.model.auth.SignUpReq;
-import tech.xavi.springfood.model.auth.SignInRes;
+import tech.xavi.springfood.model.auth.payload.SignInReq;
+import tech.xavi.springfood.model.auth.payload.SignUpReq;
+import tech.xavi.springfood.model.auth.payload.SignInRes;
 import tech.xavi.springfood.service.auth.AuthService;
 
 @RequiredArgsConstructor
@@ -26,7 +27,10 @@ public class AuthController {
     }
 
     @PostMapping(EndPoints.EP_SIGN_IN)
-    public ResponseEntity<?> signIn(){
-        return ResponseEntity.ok("valeps");
+    public ResponseEntity<?> signIn(@RequestBody SignInReq request){
+        return new ResponseEntity<>(
+                authService.signIn(request),
+                HttpStatus.OK
+        );
     }
 }

@@ -1,6 +1,6 @@
 package tech.xavi.springfood.entity.role;
 
-public enum WorkerAuthority {
+public enum StaffAuthority {
     DELIVER,
     ORDER,
     PRODUCT,

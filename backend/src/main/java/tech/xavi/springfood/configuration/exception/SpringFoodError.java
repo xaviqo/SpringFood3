@@ -7,8 +7,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SpringFoodError {
 
+    // ACCOUNT ERRORS
     EmailAlreadyExists(1001,"This email address is already registered"),
-    AccountNotFound(1002,"This email address is not registered")
+    AccountNotFound(1002,"This email address is not registered"),
+    AccountMismatch(1003,"Incorrect email or password"),
+    // FATAL ERRORS
+    ErrorCreatingSignInPayload(1901,"A fatal error has occurred creating the user connection payload")
     ;
 
     private final int code;

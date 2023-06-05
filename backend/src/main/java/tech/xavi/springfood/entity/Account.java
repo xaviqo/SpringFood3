@@ -12,6 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import tech.xavi.springfood.entity.role.Role;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,11 +32,11 @@ public class Account implements UserDetails {
     String id;
     @Column(length = 40, nullable = false)
     @NotBlank(message = "Name is mandatory")
-    @Size(min = 2, max = 40)
+    @Size(min = 3, max = 40, message = "Name must be between 3 and 4 characters")
     String name;
     @Column(length = 12, nullable = false)
     @NotBlank(message = "Phone is mandatory")
-    @Size(min = 8, max = 12)
+    @Size(min = 6, max = 12, message = "Phone number must be between 6 and 12 characters")
     String phone;
     @Column(length = 40, nullable = false)
     @Email(message = "Invalid email")
@@ -51,16 +52,16 @@ public class Account implements UserDetails {
     List<RefreshToken> refreshTokens;
 
     public String getEntityPrefix(){
-        return "ACC_";
+        return Role.ACCOUNT.PREFIX;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(this::getRole);
-        if (this instanceof Worker) {
-            authorities.addAll(((Worker) this)
-                    .getWorkerAuthorities()
+        if (this instanceof Staff) {
+            authorities.addAll(((Staff) this)
+                    .getStaffAuthorities()
                     .stream()
                     .map(auth -> new SimpleGrantedAuthority(auth.name()))
                     .toList());

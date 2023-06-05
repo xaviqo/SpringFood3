@@ -207,6 +207,7 @@ export default {
         v => !!v || 'Password is required',
         v => (v && v.length <= 40) || 'Password must be less than 40 characters',
         v => (v && v.length >= 4) || 'Phone must be at least 4 characters',
+        () => this.signup.passwordCheck === this.signup.password || 'Passwords do not match'
       ]
     },
     dataModel: {

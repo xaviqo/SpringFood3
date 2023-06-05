@@ -10,6 +10,7 @@ public class AccountIdGenerator implements IdentifierGenerator {
     public Object generate(SharedSessionContractImplementor session, Object object) {
         return ((Account) object).getEntityPrefix() + UUIDGenerator.randomAccountUUID();
     }
+
 }
 
 

@@ -16,8 +16,7 @@ import tech.xavi.springfood.entity.role.Role;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static tech.xavi.springfood.configuration.constants.EndPoints.EP_SIGN_IN;
-import static tech.xavi.springfood.configuration.constants.EndPoints.EP_SIGN_UP;
+import static tech.xavi.springfood.configuration.constants.EndPoints.*;
 
 @Configuration
 @EnableWebSecurity
@@ -37,10 +36,12 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests( authHttpReq ->
                         authHttpReq
                                 .requestMatchers(
-                                        EP_SIGN_UP
+                                        EP_SIGN_UP,
+                                        EP_SIGN_IN,
+                                        EP_STAFF_NEW
                                 ).permitAll()
                                 .requestMatchers(
-                                        EP_SIGN_IN
+                                        "/todo"
                                 ).hasRole(Role.CLIENT.name())
                                 .anyRequest().authenticated()
                 )

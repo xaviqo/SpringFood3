@@ -8,7 +8,7 @@
   >
     <v-row no-gutters>
       <v-col cols="8">
-        <v-card v-if="signIn" height="550px" flat tile color="light">
+        <v-card v-if="showSignIn" height="550px" flat tile color="light">
           <v-col class="d-flex justify-center">
             <v-card-title class="display-2 font-weight-thin px-6 mt-2">
               <span v-if="getWindowWidth() > 800">
@@ -21,7 +21,7 @@
           </v-col>
           <v-card-text align="center" class="mt-10">
             <div style="max-width: 480px">
-              <v-form ref="loginRef">
+              <v-form ref="signInRef">
                 <v-text-field
                     label="Email"
                     prepend-icon="mdi-at"
@@ -54,6 +54,7 @@
                 color="error"
                 rounded
                 class="ml-16"
+                @click="resetSignIn"
             >
               Reset
             </v-btn>
@@ -63,6 +64,7 @@
                 color="primary"
                 rounded
                 class="mr-16"
+                @click="signIn"
             >
               Sign In
             </v-btn>
@@ -77,68 +79,70 @@
             </v-card-title>
           </v-col>
           <v-card-text align="center">
-            <v-row :style="{ width: signFormWidth }">
-              <v-col cols="6">
-                <v-text-field
-                    label="Name"
-                    prepend-icon="mdi-account"
-                    type="text"
-                    color="primary"
-                    v-model="signup.name"
-                    :rules="rules.name"
-                    :counter="40"
-                />
-              </v-col>
-              <v-col cols="6">
-                <v-text-field
-                    label="Phone"
-                    prepend-icon="mdi-phone"
-                    type="text"
-                    color="green"
-                    v-model="signup.phone"
-                    :rules="rules.phone"
-                    :counter="12"
-                />
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                    label="Email"
-                    name="Email"
-                    prepend-icon="mdi-at"
-                    type="text"
-                    color="green"
-                    v-model="signup.email"
-                    :rules="rules.email"
-                    :counter="40"
-                />
-              </v-col>
-              <v-col cols="6">
-                <v-text-field
-                    label="Password"
-                    prepend-icon="mdi-lock"
-                    :type="showInputPassword ? 'text' : 'password'"
-                    color="primary"
-                    v-model="signup.password"
-                    :rules="rules.password"
-                    :counter="40"
-                    append-icon="mdi-eye"
-                    @click:append="showInputPassword = !showInputPassword"
-                />
-              </v-col>
-              <v-col cols="6">
-                <v-text-field
-                    label="Confirm Password"
-                    prepend-icon="mdi-lock"
-                    :type="showInputPassword ? 'text' : 'password'"
-                    color="green"
-                    v-model="signup.passwordCheck"
-                    :rules="rules.password"
-                    :counter="40"
-                    append-icon="mdi-eye"
-                    @click:append="showInputPassword = !showInputPassword"
-                />
-              </v-col>
-            </v-row>
+            <v-form ref="signUpRef" @submit.prevent>
+              <v-row :style="{ width: signFormWidth }">
+                <v-col cols="6">
+                  <v-text-field
+                      label="Name"
+                      prepend-icon="mdi-account"
+                      type="text"
+                      color="primary"
+                      v-model="signup.name"
+                      :rules="rules.name"
+                      :counter="40"
+                  />
+                </v-col>
+                <v-col cols="6">
+                  <v-text-field
+                      label="Phone"
+                      prepend-icon="mdi-phone"
+                      type="text"
+                      color="green"
+                      v-model="signup.phone"
+                      :rules="rules.phone"
+                      :counter="12"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                      label="Email"
+                      name="Email"
+                      prepend-icon="mdi-at"
+                      type="text"
+                      color="green"
+                      v-model="signup.email"
+                      :rules="rules.email"
+                      :counter="40"
+                  />
+                </v-col>
+                <v-col cols="6">
+                  <v-text-field
+                      label="Password"
+                      prepend-icon="mdi-lock"
+                      :type="showInputPassword ? 'text' : 'password'"
+                      color="primary"
+                      v-model="signup.password"
+                      :rules="rules.password"
+                      :counter="40"
+                      append-icon="mdi-eye"
+                      @click:append="showInputPassword = !showInputPassword"
+                  />
+                </v-col>
+                <v-col cols="6">
+                  <v-text-field
+                      label="Confirm Password"
+                      prepend-icon="mdi-lock"
+                      :type="showInputPassword ? 'text' : 'password'"
+                      color="green"
+                      v-model="signup.passwordCheck"
+                      :rules="[...rules.password,passwordMatchRule]"
+                      :counter="40"
+                      append-icon="mdi-eye"
+                      @click:append="showInputPassword = !showInputPassword"
+                  />
+                </v-col>
+              </v-row>
+            </v-form>
           </v-card-text>
           <v-card-actions class="d-flex justify-space-around mt-10">
             <v-btn
@@ -147,6 +151,7 @@
                 color="error"
                 rounded
                 class="ml-16"
+                @click="resetSignUp"
             >
               Reset
             </v-btn>
@@ -156,6 +161,7 @@
                 color="primary"
                 rounded
                 class="mr-16"
+                @click="signUp"
             >
               Sign Up
             </v-btn>
@@ -176,9 +182,9 @@
                   rounded
                   outlined
                   color="white"
-                  @click="signIn = !signIn"
+                  @click="showSignIn = !showSignIn"
               >
-                SIGN {{ signIn ? 'UP' : 'IN' }}
+                SIGN {{ showSignIn ? 'UP' : 'IN' }}
               </v-btn>
             </v-tabs>
           </div>
@@ -198,6 +204,7 @@
 </template>
 <script>
 import {mixinResponsive} from "@/mixins/responsive";
+import {EventBus} from "@/main";
 
 export default {
   name: 'SignCard',
@@ -205,7 +212,7 @@ export default {
   data: () => ({
     cardWidth: '1000px',
     signFormWidth: '650px',
-    signIn: true,
+    showSignIn: true,
     showInputPassword: false,
     login: {
       email: '',
@@ -241,6 +248,11 @@ export default {
       ]
     }
   }),
+  computed: {
+    passwordMatchRule(){
+      return () => this.signup.passwordCheck === this.signup.password || 'Passwords do not match'
+    }
+  },
   mounted() {
     window.addEventListener('resize', this.modifyCardSize);
   },
@@ -249,13 +261,81 @@ export default {
       if (this.getWindowWidth() < 1000) {
         this.cardWidth = `${this.getWindowWidth()-150}px`;
         this.signFormWidth = `${
-          ((this.getWindowWidth()-150) / 1.4).toFixed(0)
+            ((this.getWindowWidth()-150) / 1.4).toFixed(0)
         }px`;
       } else {
         this.cardWidth = '1000px';
         this.signFormWidth = '650px';
       }
     },
+    signUp(){
+      if (this.$refs.signUpRef.validate()) {
+        this.axios
+            .post('/auth/sign-up',this.signup)
+            .then( res => {
+              this.resetSignUp();
+              EventBus.$emit('showAlert', {
+                color: "success",
+                type: "success",
+                message: res.data.message
+              });
+              this.setLocalStorage(res.data.payload);
+            })
+            .catch( err => {
+              EventBus.$emit('showAlert', {
+                color: "error",
+                type: "error",
+                message: err.response.data.message
+              });
+            });
+      } else {
+        EventBus.$emit('showAlert', {
+          color: "warning",
+          type: "warning",
+          message: 'Some fields in the form are incorrect'
+        });
+      }
+    },
+    signIn(){
+      if (this.$refs.signInRef.validate()) {
+        this.axios
+            .post('/auth/sign-in',this.login)
+            .then( res => {
+              EventBus.$emit('showAlert', {
+                color: "success",
+                type: "success",
+                message: res.data.message
+              });
+              this.setLocalStorage(res.data.payload);
+            })
+            .catch( err => {
+              EventBus.$emit('showAlert', {
+                color: "error",
+                type: "error",
+                message: err.response.data.message
+              });
+            });
+        this.resetSignIn();
+      } else {
+        EventBus.$emit('showAlert', {
+          color: "warning",
+          type: "warning",
+          message: 'Some fields in the form are incorrect'
+        });
+      }
+    },
+    setLocalStorage(payload){
+      this.$store.dispatch(
+          'localStorage/setLocalStorage',
+          payload
+      );
+    },
+    resetSignIn(){
+      this.$refs.signInRef.reset();
+    },
+    resetSignUp(){
+      this.$refs.signUpRef.reset();
+    }
   }
 }
 </script>

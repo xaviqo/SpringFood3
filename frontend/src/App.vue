@@ -1,5 +1,21 @@
 <template>
   <v-app>
+    <v-alert
+        prominent
+        border="bottom"
+        dismissible
+        colored-border
+        :type="alert.type"
+        :color="alert.color"
+        elevation="3"
+        min-width="350px"
+        max-width="400px"
+        v-model="alert.show"
+        transition="slide-y-transition"
+        style="position: absolute; right: 5%; top: 5%; z-index:20001;"
+    >
+      {{ alert.message }}
+    </v-alert>
     <TopBar />
     <v-main class="main-bg">
       <router-view/>
@@ -9,16 +25,37 @@
 </template>
 
 <script>
-
+const ALERT_DEFAULT = {
+  show: false,
+  color: 'white',
+  type: null,
+  message: ''
+};
 import TopBar from "@/components/shared/TopBar.vue";
 import FooterBar from "@/components/shared/FooterBar.vue";
+import {EventBus} from "@/main";
 
 export default {
   name: 'App',
   components: {FooterBar, TopBar},
-
+  mounted() {
+    EventBus.$on('showAlert', model => {
+      this.showAlert(model);
+    });
+  },
+  methods: {
+    showAlert(model) {
+      this.alert = {
+        show: true,
+        color: model.color,
+        type: model.type,
+        message: model.message
+      }
+      setTimeout(() => this.alert = ALERT_DEFAULT, 2200);
+    }
+  },
   data: () => ({
-    //
+    alert: ALERT_DEFAULT
   }),
 };
 </script>

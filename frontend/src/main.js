@@ -8,6 +8,8 @@ import VueAxios from 'vue-axios'
 
 Vue.use(VueAxios,axios);
 
+axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
+
 Vue.config.productionTip = false;
 
 export const EventBus = new Vue();

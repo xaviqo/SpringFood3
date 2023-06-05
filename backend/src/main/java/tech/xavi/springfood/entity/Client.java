@@ -20,7 +20,7 @@ public class Client extends Account{
 
     @Override
     public String getEntityPrefix(){
-        return "CLI_";
+        return Role.CLIENT.PREFIX;
     }
 
     @Override

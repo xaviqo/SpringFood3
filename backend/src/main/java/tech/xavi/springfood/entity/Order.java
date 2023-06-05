@@ -34,7 +34,7 @@ public class Order {
     @Column(nullable = false)
     boolean delivered;
     @ManyToOne
-    Worker deliveryWorker;
+    Staff deliveryWorker;
     @ManyToOne
     Address deliveryAddress;
     @Column(nullable = false)

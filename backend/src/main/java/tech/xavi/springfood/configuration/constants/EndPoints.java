@@ -10,4 +10,7 @@ public class EndPoints {
     public static final String EP_SIGN_UP = EP_AUTH + "/sign-up";
     public static final String EP_SIGN_IN = EP_AUTH + "/sign-in";
 
+    // WORKER
+    public static final String EP_STAFF = EP_API + "/staff";
+
 }
