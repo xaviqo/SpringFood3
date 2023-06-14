@@ -11,7 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import tech.xavi.springfood.entity.role.Role;
+import tech.xavi.springfood.entity.role.StaffAuthority;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,11 +38,11 @@ public class SecurityConfiguration {
                                 .requestMatchers(
                                         EP_SIGN_UP,
                                         EP_SIGN_IN,
-                                        EP_STAFF_NEW
+                                        EP_STAFF
                                 ).permitAll()
-                                .requestMatchers(
-                                        "/todo"
-                                ).hasRole(Role.CLIENT.name())
+                                .requestMatchers("/api/staff/test"
+                                )
+                                .hasAnyAuthority(StaffAuthority.ADMIN.name())
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(smCfg -> {

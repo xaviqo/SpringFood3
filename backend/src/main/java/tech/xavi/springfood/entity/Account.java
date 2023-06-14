@@ -58,7 +58,7 @@ public class Account implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(this::getRole);
+        authorities.add(new SimpleGrantedAuthority(this.getRole()));
         if (this instanceof Staff) {
             authorities.addAll(((Staff) this)
                     .getStaffAuthorities()

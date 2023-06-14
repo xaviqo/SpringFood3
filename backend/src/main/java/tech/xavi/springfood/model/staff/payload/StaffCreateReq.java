@@ -5,7 +5,10 @@ import tech.xavi.springfood.entity.role.StaffAuthority;
 import java.util.List;
 
 public record StaffCreateReq(
-        String accountId,
+        String name,
+        String phone,
+        String email,
+        String password,
         List<StaffAuthority> authorities
 ) {
 }

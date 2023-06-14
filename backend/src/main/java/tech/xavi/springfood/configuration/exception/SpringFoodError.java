@@ -11,6 +11,7 @@ public enum SpringFoodError {
     EmailAlreadyExists(1001,"This email address is already registered"),
     AccountNotFound(1002,"This email address is not registered"),
     AccountMismatch(1003,"Incorrect email or password"),
+    InvalidToken(1004,"Corrupted or invalid token"),
     // FATAL ERRORS
     ErrorCreatingSignInPayload(1901,"A fatal error has occurred creating the user connection payload")
     ;

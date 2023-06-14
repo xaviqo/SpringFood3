@@ -6,10 +6,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
@@ -72,6 +75,14 @@ public class JwtService {
                 .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TKN_EXP_SEC))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public Collection<? extends GrantedAuthority> extractAuthorities(String token) {
+        return (Collection<? extends GrantedAuthority>)
+                extractClaim(token, claims -> claims.get("roles", Collection.class))
+                .stream()
+                .map(str -> new SimpleGrantedAuthority((String) str))
+                .toList();
     }
 
     public String extractUsername(String token){

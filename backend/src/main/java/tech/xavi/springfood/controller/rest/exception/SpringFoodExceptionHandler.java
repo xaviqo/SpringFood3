@@ -1,4 +1,4 @@
-package tech.xavi.springfood.configuration.exception;
+package tech.xavi.springfood.controller.rest.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import tech.xavi.springfood.configuration.exception.SpringFoodException;
 import tech.xavi.springfood.model.error.ApiErrorPayload;
 
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ public class SpringFoodExceptionHandler {
                 sfException.getHttpStatus()
         );
     }
+
 
     @ExceptionHandler(value = ConstraintViolationException.class)
     protected ResponseEntity<ApiErrorPayload> constrainViolationExceptionHandler(

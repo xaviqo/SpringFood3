@@ -18,7 +18,7 @@ import java.util.List;
 @PrimaryKeyJoinColumn
 public class Staff extends Account{
 
-    @ElementCollection
+    //@ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "staff_authority", joinColumns = @JoinColumn(name = "staff_id"))
     List<StaffAuthority> staffAuthorities;
 

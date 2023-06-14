@@ -26,4 +26,12 @@ public class StaffController {
                 HttpStatus.CREATED
         );
     }
+
+    @PostMapping(EndPoints.EP_STAFF+"/test")
+    public ResponseEntity<?> test(){
+        return new ResponseEntity<>(
+                "okk",
+                HttpStatus.OK
+        );
+    }
 }
